@@ -1,11 +1,6 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-author: "citywright"
-date: "15 November 2015"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
+citywright  
+15 November 2015  
 
 This report is my submission for Peer Assessment #1 for "Reproducable Research",
 Course #5 of 9 in the Johns Hopkins Univeristy Data Science track on Coursera.
@@ -16,7 +11,8 @@ assumes that the data has been downloaded and is it the current working director
 This code chunk also loads the libraries for ggplot2 and lattice, which are used 
 to create charts and plots later in the report.
 
-```{r load and pre-process data}
+
+```r
 library(ggplot2)
 library(lattice)
 
@@ -38,31 +34,38 @@ over each 5-minute time interval and each day.
 
 ## Question 1: What is mean total number of steps taken per day?
 
-```{r Question 1}
+
+```r
 dailyHist <- qplot(steps, data=dSum, type="histogram", binwidth=2500)
 dailyMean <- mean(dSum$steps)
 dailyMed  <- median(dSum$steps)
 print(dailyHist)
 ```
 
-The average (mean) number of steps per day in the original dataset is `r dailyMean`.
+![](PA1_template_files/figure-html/Question 1-1.png) 
 
-The median number of steps per day in the original dataset is `r dailyMed`.
+The average (mean) number of steps per day in the original dataset is 1.0766189\times 10^{4}.
+
+The median number of steps per day in the original dataset is 10765.
 
 ## Question 2: What is the average daily activity pattern?
 
-```{r Question 2}
+
+```r
 timeSeries <- ggplot(pAve, aes(interval, steps)) + geom_line()
 maxInterval <- pAve$interval[which.max(pAve$steps)]
 print(timeSeries)
 ```
 
+![](PA1_template_files/figure-html/Question 2-1.png) 
+
 The 5-minute interval that contains the maximum number of steps, 
-on average across all the days, is `r maxInterval`.
+on average across all the days, is 835.
 
 ## Question 3: Imputing missing values
 
-```{r Question 3}
+
+```r
 missing <- sum(is.na(act$steps))
 
 imputed <- act
@@ -88,7 +91,7 @@ imputedMean <- mean(idSum$steps)
 imputedMed  <- median(idSum$steps)
 ```
 
-There are `r missing` missing values in the dataset.
+There are 2304 missing values in the dataset.
 
 A complete dataset was calculated by imputing values wherever there were missing
 step number values in the original dataset.  The value used in place of missing 
@@ -97,13 +100,16 @@ value took place.
 
 The following is a historgram of that new dataset:
 
-```{r Question 3 Plot}
+
+```r
 print(imputedHist)
 ```
 
-The average (mean) number of steps per day in the imputed dataset is `r imputedMean`.
+![](PA1_template_files/figure-html/Question 3 Plot-1.png) 
 
-The median number of steps per day in the imputed dataset is `r imputedMed`.
+The average (mean) number of steps per day in the imputed dataset is 1.0766189\times 10^{4}.
+
+The median number of steps per day in the imputed dataset is 1.0766189\times 10^{4}.
 
 ## Question 4: Are there differences in activity patterns between weekdays and weekends?
 
@@ -114,7 +120,8 @@ FALSE if it was a weekday.  I then created an empty character vector, inserted t
 for either 'weekend' or 'weekday' depending on the state of the logical vector, and
 then converted it to a factor variable inserted into the imputed dataset.
 
-```{r Question 4.1}
+
+```r
 weekendLogical <- weekdays(imputed$date) %in% c("Saturday", "Sunday")
 weekendChar    <- vector(mode="character", length=length(weekendLogical))
 weekendChar[weekendLogical==TRUE]  <- "weekend"
@@ -126,11 +133,14 @@ The following panel plot compares the average number of steps per interval for d
 categorized as weekends against the average number of steps per interval for days
 categorized as weekdays.  It is created using the `lattice` package.
 
-```{r Question 4.2}
+
+```r
 daytest <- aggregate(steps ~ interval + daytype, data=imputed, mean)
 dayPlot <- xyplot(steps ~ interval | daytype, data=daytest, type="l", layout=c(1,2))
 print(dayPlot)
 ```
+
+![](PA1_template_files/figure-html/Question 4.2-1.png) 
 
 So there you have it!  There is indeed quite a difference in the step patterns 
 between weekends and weekdays.  Key differences include:
