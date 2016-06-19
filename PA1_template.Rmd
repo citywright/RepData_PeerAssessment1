@@ -1,16 +1,14 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
+title: "Activity_Research"
 author: "citywright"
-date: "15 November 2015"
-output: 
-  html_document:
-    keep_md: true
+date: "19 June 2016"
+output: html_document
 ---
 
 This report is my submission for Peer Assessment #1 for "Reproducable Research",
-Course #5 of 9 in the Johns Hopkins Univeristy Data Science track on Coursera.
+Course 5 of 9 in the Johns Hopkins Univeristy Data Science track on Coursera.
 
-The first step in the analysis is to load and pre-process the data.  The code below
+The first step in the analysis is to load and pre-process the data.  The code
 assumes that the data has been downloaded and is it the current working directory.
 
 This code chunk also loads the libraries for ggplot2 and lattice, which are used 
@@ -39,7 +37,7 @@ over each 5-minute time interval and each day.
 ## Question 1: What is mean total number of steps taken per day?
 
 ```{r Question 1}
-dailyHist <- qplot(steps, data=dSum, type="histogram", binwidth=2500)
+dailyHist <- qplot(steps, data=dSum, geom="histogram", binwidth=2500)
 dailyMean <- mean(dSum$steps)
 dailyMed  <- median(dSum$steps)
 print(dailyHist)
@@ -83,7 +81,7 @@ idAve <- aggregate(steps ~ date, data=imputed, mean)
 idSum <- aggregate(steps ~ date, data=imputed, sum)
 idMed <- aggregate(steps ~ date, data=imputed, median)
 
-imputedHist <- qplot(steps, data=idSum, type="histogram", binwidth=2500)
+imputedHist <- qplot(steps, data=idSum, geom="histogram", binwidth=2500)
 imputedMean <- mean(idSum$steps)
 imputedMed  <- median(idSum$steps)
 ```
@@ -135,13 +133,14 @@ print(dayPlot)
 So there you have it!  There is indeed quite a difference in the step patterns 
 between weekends and weekdays.  Key differences include:
 
-- A later start on weekends (around 800) than weekdays (around 515)
+- A later start on weekends than weekdays, around 8 AM (800) versus around 5:15 AM
+(515).
 
-- A more pronounced peak of activity on weekday mornings around 900, perhaps a 
+- A more pronounced peak of activity on weekday mornings around 9 AM (900), perhaps a 
 morning commute?
 
 - More consistent activity across the day during weekend days, perhaps less sitting 
-around at on office desk job.
+around at an office desk job.
 
-However, the activity tends to fade to zero around 2000 (10 PM) on both weekdays
-and weekends, with almost no activity between 0 (midnight) and 500 (5 AM) on any day.
+However, the activity tends to fade to zero around 10 PM (2000) on both weekdays
+and weekends, with almost no activity between Midnight (0) and 5 AM (500) on any day.
