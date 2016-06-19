@@ -1,11 +1,14 @@
-# Reproducible Research: Peer Assessment 1
-citywright  
-15 November 2015  
+---
+title: "Activity_Research"
+author: "citywright"
+date: "19 June 2016"
+output: html_document
+---
 
 This report is my submission for Peer Assessment #1 for "Reproducable Research",
-Course #5 of 9 in the Johns Hopkins Univeristy Data Science track on Coursera.
+Course 5 of 9 in the Johns Hopkins Univeristy Data Science track on Coursera.
 
-The first step in the analysis is to load and pre-process the data.  The code below
+The first step in the analysis is to load and pre-process the data.  The code
 assumes that the data has been downloaded and is it the current working directory.
 
 This code chunk also loads the libraries for ggplot2 and lattice, which are used 
@@ -36,15 +39,15 @@ over each 5-minute time interval and each day.
 
 
 ```r
-dailyHist <- qplot(steps, data=dSum, type="histogram", binwidth=2500)
+dailyHist <- qplot(steps, data=dSum, geom="histogram", binwidth=2500)
 dailyMean <- mean(dSum$steps)
 dailyMed  <- median(dSum$steps)
 print(dailyHist)
 ```
 
-![](PA1_template_files/figure-html/Question 1-1.png) 
+![plot of chunk Question 1](figure/Question 1-1.png)
 
-The average (mean) number of steps per day in the original dataset is 1.0766189\times 10^{4}.
+The average (mean) number of steps per day in the original dataset is 1.0766189 &times; 10<sup>4</sup>.
 
 The median number of steps per day in the original dataset is 10765.
 
@@ -57,7 +60,7 @@ maxInterval <- pAve$interval[which.max(pAve$steps)]
 print(timeSeries)
 ```
 
-![](PA1_template_files/figure-html/Question 2-1.png) 
+![plot of chunk Question 2](figure/Question 2-1.png)
 
 The 5-minute interval that contains the maximum number of steps, 
 on average across all the days, is 835.
@@ -86,7 +89,7 @@ idAve <- aggregate(steps ~ date, data=imputed, mean)
 idSum <- aggregate(steps ~ date, data=imputed, sum)
 idMed <- aggregate(steps ~ date, data=imputed, median)
 
-imputedHist <- qplot(steps, data=idSum, type="histogram", binwidth=2500)
+imputedHist <- qplot(steps, data=idSum, geom="histogram", binwidth=2500)
 imputedMean <- mean(idSum$steps)
 imputedMed  <- median(idSum$steps)
 ```
@@ -105,11 +108,11 @@ The following is a historgram of that new dataset:
 print(imputedHist)
 ```
 
-![](PA1_template_files/figure-html/Question 3 Plot-1.png) 
+![plot of chunk Question 3 Plot](figure/Question 3 Plot-1.png)
 
-The average (mean) number of steps per day in the imputed dataset is 1.0766189\times 10^{4}.
+The average (mean) number of steps per day in the imputed dataset is 1.0766189 &times; 10<sup>4</sup>.
 
-The median number of steps per day in the imputed dataset is 1.0766189\times 10^{4}.
+The median number of steps per day in the imputed dataset is 1.0766189 &times; 10<sup>4</sup>.
 
 ## Question 4: Are there differences in activity patterns between weekdays and weekends?
 
@@ -140,18 +143,19 @@ dayPlot <- xyplot(steps ~ interval | daytype, data=daytest, type="l", layout=c(1
 print(dayPlot)
 ```
 
-![](PA1_template_files/figure-html/Question 4.2-1.png) 
+![plot of chunk Question 4.2](figure/Question 4.2-1.png)
 
 So there you have it!  There is indeed quite a difference in the step patterns 
 between weekends and weekdays.  Key differences include:
 
-- A later start on weekends (around 800) than weekdays (around 515)
+- A later start on weekends than weekdays, around 8 AM (800) versus around 5:15 AM
+(515).
 
-- A more pronounced peak of activity on weekday mornings around 900, perhaps a 
+- A more pronounced peak of activity on weekday mornings around 9 AM (900), perhaps a 
 morning commute?
 
 - More consistent activity across the day during weekend days, perhaps less sitting 
-around at on office desk job.
+around at an office desk job.
 
-However, the activity tends to fade to zero around 2000 (10 PM) on both weekdays
-and weekends, with almost no activity between 0 (midnight) and 500 (5 AM) on any day.
+However, the activity tends to fade to zero around 10 PM (2000) on both weekdays
+and weekends, with almost no activity between Midnight (0) and 5 AM (500) on any day.
